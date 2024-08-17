@@ -5,8 +5,11 @@ import useToGetData from "../../../../hooks/useToGetData";
 import useAxios from "../../../../hooks/useAxios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { LuEye, LuEyeOff } from "react-icons/lu";
+
 const AddStudent = ({ setIsAddStudent, refetch }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isPassShow, setIsPassShow] = useState(false);
   const { register, handleSubmit } = useForm();
   const axiosInstance = useAxios();
   const { data: classNames, isLoading: loading } = useToGetData({
@@ -22,7 +25,6 @@ const AddStudent = ({ setIsAddStudent, refetch }) => {
       return toast.error("You must assign this student to a class");
     }
     setIsLoading(true);
-    console.log(data);
     try {
       const res = await axiosInstance.patch("/add-student", data);
       if (res?.data?.message) {
@@ -93,17 +95,29 @@ const AddStudent = ({ setIsAddStudent, refetch }) => {
             </div>
 
             {/* Student password */}
-            <div className="w-full ">
+            <div className="w-full relative">
               <label className="text-gray-600 w-full font-medium inline-block space-y-1">
                 <p className="text-left">Student Password</p>
                 <input
-                  type="password"
+                  type={isPassShow ? "text" : "password"}
                   placeholder="Create student password"
                   required
                   {...register("password")}
                   className="w-full text-[15px] px-4 py-2.5 rounded border focus:outline-none focus:border-primary-color focus:border-opacity-50"
                 />
               </label>
+              <div className="absolute top-10 right-3">
+                <span
+                  className="inline-block cursor-pointer"
+                  onClick={() => setIsPassShow(!isPassShow)}
+                >
+                  {isPassShow ? (
+                    <LuEye className="text-lg" />
+                  ) : (
+                    <LuEyeOff className="text-lg" />
+                  )}
+                </span>
+              </div>
             </div>
 
             {/* Assign teacher to classroom */}

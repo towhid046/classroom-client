@@ -1,11 +1,43 @@
 import { useForm } from "react-hook-form";
 import { FaTimesCircle } from "react-icons/fa";
 import Button from "./../../../Shared/Button/Button";
-const allClasses = ["Class-1", "Class-2", "Class-3", "Class-4"];
-const AddStudent = ({ setIsAddStudent }) => {
+import useToGetData from "../../../../hooks/useToGetData";
+import useAxios from "../../../../hooks/useAxios";
+import { useState } from "react";
+import { toast } from "react-toastify";
+const AddStudent = ({ setIsAddStudent, refetch }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit } = useForm();
-  const handleAddStudent = (data) => {
-    console.log(data)
+  const axiosInstance = useAxios();
+  const { data: classNames, isLoading: loading } = useToGetData({
+    queryKeyName: "class-names",
+    url: "/classroom-names-all",
+  });
+
+  const handleAddStudent = async (data) => {
+    if (data.password?.length <= 4) {
+      return toast.error("Password must be longer that 4 characters");
+    }
+    if (!data.assignedClass) {
+      return toast.error("You must assign this student to a class");
+    }
+    setIsLoading(true);
+    console.log(data);
+    try {
+      const res = await axiosInstance.patch("/add-student", data);
+      if (res?.data?.message) {
+        toast.error(res.data.message);
+      }
+      if (res.data.modifiedCount) {
+        toast.success("Student is added successfully");
+        setIsAddStudent(false);
+        refetch();
+      }
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -60,6 +92,20 @@ const AddStudent = ({ setIsAddStudent }) => {
               </label>
             </div>
 
+            {/* Student password */}
+            <div className="w-full ">
+              <label className="text-gray-600 w-full font-medium inline-block space-y-1">
+                <p className="text-left">Student Password</p>
+                <input
+                  type="password"
+                  placeholder="Create student password"
+                  required
+                  {...register("password")}
+                  className="w-full text-[15px] px-4 py-2.5 rounded border focus:outline-none focus:border-primary-color focus:border-opacity-50"
+                />
+              </label>
+            </div>
+
             {/* Assign teacher to classroom */}
             <div className="w-full ">
               <label className="text-gray-600 w-full font-medium inline-block space-y-1">
@@ -68,17 +114,32 @@ const AddStudent = ({ setIsAddStudent }) => {
                   {...register("assignedClass")}
                   className="border text-[15px] focus:outline-none py-2 px-4 w-full focus:border-primary-color focus:border rounded"
                 >
-                  <option value="">Select assigned class</option>
-                  {allClasses.map((className) => (
-                    <option key={className} value={className}>
-                      {className}
-                    </option>
-                  ))}
+                  <option value="">
+                    {loading ? "Class is loading..." : "Select assigned class"}
+                  </option>
+                  {classNames &&
+                    classNames?.map((className) => (
+                      <option key={className} value={className}>
+                        {className}
+                      </option>
+                    ))}
                 </select>
               </label>
             </div>
 
-            <Button text={"Add Student"} customClass={"w-full"} />
+            {isLoading ? (
+              <Button
+                isDisabled={isLoading}
+                text={"Adding..."}
+                customClass={"w-full"}
+              />
+            ) : (
+              <Button
+                isDisabled={isLoading}
+                text={"Add Student"}
+                customClass={"w-full"}
+              />
+            )}
           </form>
         </div>
       </div>

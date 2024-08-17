@@ -27,12 +27,17 @@ const ClassroomCard = ({ classroom }) => {
           <h3 className="underline text-xl font-semibold ">Students</h3>
         </div>
         <ol className=" list-decimal list-outside px-4 grid xl:grid-cols-3 lg:grid-cols-2  grid-cols-1 gap-2">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((student) => (
-            <li key={student}>
-              <p>Name: Student Name</p>
-              <small>Email: Student Email</small>
-            </li>
-          ))}
+          {classroom?.students?.length ? (
+            classroom?.students &&
+            classroom?.students.map((student) => (
+              <li key={student}>
+                <p>Name: {student?.name}</p>
+                <small>Email: {student?.email}</small>
+              </li>
+            ))
+          ) : (
+            <i className="text-gray-400">No students have added Yet!</i>
+          )}
         </ol>
       </div>
     </div>

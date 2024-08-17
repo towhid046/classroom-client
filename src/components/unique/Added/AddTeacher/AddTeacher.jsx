@@ -113,7 +113,11 @@ const AddTeacher = ({ setIsAddTeacher, refetch }) => {
                   className="border text-[15px] focus:outline-none py-2 px-4 w-full focus:border-primary-color focus:border rounded"
                 >
                   <option value="">
-                    {loading ? "Class is loading..." : classNames.length ? "Select assigned class" : 'All classes is booked '}
+                    {loading
+                      ? "Class is loading..."
+                      : classNames.length
+                      ? "Select assigned class"
+                      : "All classes is booked "}
                   </option>
                   {classNames &&
                     classNames?.map((className) => (

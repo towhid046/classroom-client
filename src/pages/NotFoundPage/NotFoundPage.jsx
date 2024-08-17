@@ -10,7 +10,7 @@ const NotFoundPage = () => {
         The page you are looking for does not exist.
       </p>
       <Link
-        to="/"
+        to="/classroom"
         className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300"
       >
         Go to Homepage

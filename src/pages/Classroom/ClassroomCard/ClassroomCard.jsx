@@ -5,8 +5,14 @@ const ClassroomCard = ({ classroom }) => {
       <div className="mb-4 flex gap-2 md:flex-row flex-col-reverse justify-between">
         <div>
           <h3 className="mb-2 underline text-xl font-semibold ">Teacher</h3>
-          <p>Name: Teacher Name</p>
-          <small>Email: Teacher Email</small>
+          {classroom?.teacher?.name ? (
+            <>
+              <p className="font-medium">Name: {classroom?.teacher?.name}</p>
+              <small>Email: {classroom?.teacher?.email}</small>
+            </>
+          ) : (
+            <i className="text-gray-400">Teacher is not added Yet!</i>
+          )}
         </div>
         <h2 className="md:text-2xl text-xl font-semibold text-center">
           {name}

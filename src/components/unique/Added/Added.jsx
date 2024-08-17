@@ -30,10 +30,17 @@ const Added = ({ classroomLength, refetch }) => {
         )}
       </div>
       {isClassroomToggle && (
-        <CreateClassroom setIsClassroomToggle={setIsClassroomToggle} refetch={refetch} />
+        <CreateClassroom
+          setIsClassroomToggle={setIsClassroomToggle}
+          refetch={refetch}
+        />
       )}
-      {isAddTeacher && <AddTeacher setIsAddTeacher={setIsAddTeacher} />}
-      {isAddStudent && <AddStudent setIsAddStudent={setIsAddStudent} />}
+      {isAddTeacher && (
+        <AddTeacher setIsAddTeacher={setIsAddTeacher} refetch={refetch} />
+      )}
+      {isAddStudent && (
+        <AddStudent setIsAddStudent={setIsAddStudent} refetch={refetch} />
+      )}
     </>
   );
 };

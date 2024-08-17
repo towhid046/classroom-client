@@ -1,11 +1,42 @@
 import { useForm } from "react-hook-form";
 import { FaTimesCircle } from "react-icons/fa";
 import Button from "./../../../Shared/Button/Button";
-const allClasses = ["Class-1", "Class-2", "Class-3", "Class-4"];
-const AddTeacher = ({ setIsAddTeacher }) => {
+import { useState } from "react";
+import { toast } from "react-toastify";
+import useAxios from "../../../../hooks/useAxios";
+import useToGetData from "./../../../../hooks/useToGetData";
+const AddTeacher = ({ setIsAddTeacher, refetch }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit } = useForm();
-  const handleAddTeacher = (data) => {
-    console.log(data);
+  const axiosInstance = useAxios();
+  const { data: classNames, isLoading: loading } = useToGetData({
+    queryKeyName: "class-names",
+    url: "/classroom-names",
+  });
+
+  const handleAddTeacher = async (data) => {
+    if (data.password?.length <= 4) {
+      return toast.error("Password must be longer that 4 characters");
+    }
+    if (!data.assignedClass) {
+      return toast.error("You must assign a class to this teacher");
+    }
+    setIsLoading(true);
+    try {
+      const res = await axiosInstance.patch("/add-teacher", data);
+      if (res?.data?.message) {
+        toast.error(res.data.message);
+      }
+      if (res.data.modifiedCount) {
+        toast.success("Teacher is added successfully");
+        setIsAddTeacher(false);
+        refetch();
+      }
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -46,7 +77,6 @@ const AddTeacher = ({ setIsAddTeacher }) => {
               </label>
             </div>
 
-            {/* teacher email */}
             <div className="w-full ">
               <label className="text-gray-600 w-full font-medium inline-block space-y-1">
                 <p className="text-left">Teacher Email</p>
@@ -60,6 +90,20 @@ const AddTeacher = ({ setIsAddTeacher }) => {
               </label>
             </div>
 
+            {/* teacher email */}
+            <div className="w-full ">
+              <label className="text-gray-600 w-full font-medium inline-block space-y-1">
+                <p className="text-left">Teacher Password</p>
+                <input
+                  type="password"
+                  placeholder="Create teacher password"
+                  required
+                  {...register("password")}
+                  className="w-full text-[15px] px-4 py-2.5 rounded border focus:outline-none focus:border-primary-color focus:border-opacity-50"
+                />
+              </label>
+            </div>
+
             {/* Assign teacher to classroom */}
             <div className="w-full ">
               <label className="text-gray-600 w-full font-medium inline-block space-y-1">
@@ -68,17 +112,32 @@ const AddTeacher = ({ setIsAddTeacher }) => {
                   {...register("assignedClass")}
                   className="border text-[15px] focus:outline-none py-2 px-4 w-full focus:border-primary-color focus:border rounded"
                 >
-                  <option value="">Select assigned class</option>
-                  {allClasses.map((className) => (
-                    <option key={className} value={className}>
-                      {className}
-                    </option>
-                  ))}
+                  <option value="">
+                    {loading ? "Class is loading..." : classNames.length ? "Select assigned class" : 'All classes is booked '}
+                  </option>
+                  {classNames &&
+                    classNames?.map((className) => (
+                      <option key={className} value={className}>
+                        {className}
+                      </option>
+                    ))}
                 </select>
               </label>
             </div>
 
-            <Button text={"Add Teacher"} customClass={"w-full"} />
+            {isLoading ? (
+              <Button
+                isDisabled={isLoading}
+                text={"Adding..."}
+                customClass={"w-full"}
+              />
+            ) : (
+              <Button
+                isDisabled={isLoading}
+                text={"Add Teacher"}
+                customClass={"w-full"}
+              />
+            )}
           </form>
         </div>
       </div>

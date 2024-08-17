@@ -4,7 +4,7 @@ import Button from "./../../Shared/Button/Button";
 import AddTeacher from "./AddTeacher/AddTeacher";
 import AddStudent from "./AddStudent/AddStudent";
 
-const Added = ({ classrooms }) => {
+const Added = ({ classroomLength, refetch }) => {
   const [isClassroomToggle, setIsClassroomToggle] = useState(false);
   const [isAddTeacher, setIsAddTeacher] = useState(false);
   const [isAddStudent, setIsAddStudent] = useState(false);
@@ -16,7 +16,7 @@ const Added = ({ classrooms }) => {
           clickHandler={() => setIsClassroomToggle(true)}
           text={"Create Classroom"}
         />
-        {classrooms.length && (
+        {classroomLength && (
           <>
             <Button
               clickHandler={() => setIsAddTeacher(true)}
@@ -30,7 +30,7 @@ const Added = ({ classrooms }) => {
         )}
       </div>
       {isClassroomToggle && (
-        <CreateClassroom setIsClassroomToggle={setIsClassroomToggle} />
+        <CreateClassroom setIsClassroomToggle={setIsClassroomToggle} refetch={refetch} />
       )}
       {isAddTeacher && <AddTeacher setIsAddTeacher={setIsAddTeacher} />}
       {isAddStudent && <AddStudent setIsAddStudent={setIsAddStudent} />}

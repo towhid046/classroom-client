@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { FaTimesCircle } from "react-icons/fa";
 import Button from "./../../../Shared/Button/Button";
+import useAxios from "./../../../../hooks/useAxios";
+import { useState } from "react";
+import { toast } from "react-toastify";
 const daysOfWeek = [
   "Sunday",
   "Monday",
@@ -11,14 +14,42 @@ const daysOfWeek = [
   "Saturday",
 ];
 
-const CreateClassroom = ({ setIsClassroomToggle }) => {
+const CreateClassroom = ({ setIsClassroomToggle, refetch }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit } = useForm();
-  const handleCreateClassroom = (data) => {
+  const axiosInstance = useAxios();
+
+  const handleCreateClassroom = async (data) => {
+    if (!data.onDay) {
+      return toast.error("Select a day");
+    }
+    if (Number(data.startTime) > 12) {
+      return toast.error("Invalid start Time");
+    }
+    if (Number(data.endTime) > 12) {
+      return toast.error("Invalid End Time");
+    }
+    setIsLoading(true);
     data.startTime += " " + data.start;
     data.endTime += " " + data.end;
     delete data.end;
     delete data.start;
-    console.log(data);
+
+    try {
+      const res = await axiosInstance.post("/classroom", data);
+      if (res?.data?.message) {
+        toast.error(res.data.message);
+      }
+      if (res.data.insertedId) {
+        refetch()
+        toast.success("A new classroom is created successfully");
+        setIsClassroomToggle(false);
+      }
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -125,7 +156,19 @@ const CreateClassroom = ({ setIsClassroomToggle }) => {
               </label>
             </div>
 
-            <Button text={"Create"} customClass={"w-full"} />
+            {isLoading ? (
+              <Button
+                isDisabled={isLoading}
+                text={"Creating..."}
+                customClass={"w-full"}
+              />
+            ) : (
+              <Button
+                isDisabled={isLoading}
+                text={"Create"}
+                customClass={"w-full"}
+              />
+            )}
           </form>
         </div>
       </div>

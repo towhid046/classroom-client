@@ -1,0 +1,17 @@
+<svg width="18.000000" height="18.000000" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip4_80">
+			<rect id="Paper" rx="-0.500000" width="17.000000" height="17.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/>
+		</clipPath>
+	</defs>
+	<rect id="Paper" rx="-0.500000" width="17.000000" height="17.000000" transform="translate(0.500000 0.500000)" fill="#FFFFFF" fill-opacity="0"/>
+	<g clip-path="url(#clip4_80)">
+		<path id="Stroke-1" d="M6.06 2.07C4.5 2.06 3.22 3.3 3.18 4.86L3.18 12.9C3.15 14.48 4.4 15.8 5.99 15.83C6.01 15.83 6.04 15.83 6.06 15.83L12.05 15.83C13.62 15.77 14.86 14.47 14.85 12.9L14.85 6.02L11.05 2.07L6.06 2.07Z" stroke="#5C635A" stroke-opacity="1.000000" stroke-width="1.300000" stroke-linejoin="round"/>
+		<path id="Stroke-3" d="M10.85 2.06L10.85 4.24C10.85 5.3 11.71 6.17 12.78 6.17L14.84 6.17" stroke="#5C635A" stroke-opacity="1.000000" stroke-width="1.300000" stroke-linejoin="round" stroke-linecap="round"/>
+		<path id="Stroke-5" d="M10.71 11.51L6.66 11.51" stroke="#5C635A" stroke-opacity="1.000000" stroke-width="1.300000" stroke-linejoin="round" stroke-linecap="round"/>
+		<path id="Stroke-7" d="M9.18 8.7L6.66 8.7" stroke="#5C635A" stroke-opacity="1.000000" stroke-width="1.300000" stroke-linejoin="round" stroke-linecap="round"/>
+	</g>
+</svg>

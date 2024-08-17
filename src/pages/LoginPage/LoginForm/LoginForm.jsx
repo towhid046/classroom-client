@@ -1,10 +1,9 @@
 import { BsCheck } from "react-icons/bs";
-import lineX from "../../../assets/images/icons/line-x.svg";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [toggle, setToggle] = useState(false);
@@ -28,7 +27,7 @@ const LoginForm = () => {
   return (
     <div className="flex-1">
       <form onSubmit={handleSubmit(handleLogin)}>
-        <div className="flex flex-col gap-3 mb-5">
+        <div className="flex flex-col gap-1 mb-5">
           <label className="text-[#152A16] font-medium">Email</label>
           <input
             type="email"
@@ -39,7 +38,7 @@ const LoginForm = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-3 mb-[14px]">
+        <div className="flex flex-col gap-1 mb-[14px]">
           <label className="text-[#152A16] font-medium">Password</label>
           <input
             type="password"

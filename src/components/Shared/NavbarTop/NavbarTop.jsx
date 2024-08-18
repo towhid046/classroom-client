@@ -3,34 +3,28 @@ import { FaRegUserCircle } from "react-icons/fa";
 import notification from "../../../assets/images/icons/notification.svg";
 import line from "../../../assets/images/icons/line.svg";
 import logout from "../../../assets/images/icons/logout.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
 
 const NavbarTop = () => {
   const { user, logOutUser } = useAuth();
+  const navigate = useNavigate();
   const handleLogoutUser = async () => {
-    await logOutUser();
+    logOutUser();
+    navigate("/");
     toast.success("Logout success");
   };
   return (
     <nav className="w-full flex justify-between border-l border-secondary-color py-6 px-[30px] text-[#152A16] sticky top-0 bg-white z-50">
       <div className="flex gap-3 items-center">
         <figure>
-          {user?.photoURL ? (
-            <img
-              src={user.photoURL}
-              className="w-10 h-10 object-cover rounded-full"
-              alt="User"
-            />
-          ) : (
-            <FaRegUserCircle className="text-3xl text-gray-500" />
-          )}
+          <FaRegUserCircle className="text-3xl text-gray-500" />
         </figure>
         <div>
           <div className="flex justify-between">
             <h2 className="font-medium text-[15px]">
-              {user ? user?.displayName : "Guest User"}
+              {user ? user?.name : "Guest User"}
             </h2>
             <button>
               <IoIosArrowDown />

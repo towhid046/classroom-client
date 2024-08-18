@@ -1,10 +1,19 @@
+import useAuth from "./../../../hooks/useAuth";
 const ClassroomCard = ({ classroom }) => {
   const { name, startTime, endTime, onDay } = classroom;
+  const { user } = useAuth();
   return (
     <div className="p-5 rounded bg-white text-gray-700">
       <div className="mb-4 flex gap-2 md:flex-row flex-col-reverse justify-between">
         <div>
-          <h3 className="mb-2 underline text-xl font-semibold ">Teacher</h3>
+          <div className="flex items-center gap-3">
+            <h3 className="mb-2 underline text-xl font-semibold ">Teacher</h3>
+            {user?.assignedClass === name && user.role === "teacher" && (
+              <small className="bg-green-400 text-white px-3 py-1 rounded-full">
+                You
+              </small>
+            )}
+          </div>
           {classroom?.teacher?.name ? (
             <>
               <p className="font-medium">Name: {classroom?.teacher?.name}</p>
@@ -24,13 +33,19 @@ const ClassroomCard = ({ classroom }) => {
       <hr />
       <div className="mt-4">
         <div className="mb-3">
-          <h3 className="underline text-xl font-semibold ">Students</h3>
+        <div className="flex items-center gap-3">
+            <h3 className="mb-2 underline text-xl font-semibold ">Student</h3>
+            {user?.assignedClass === name && user.role === "student" && (
+              <small className="bg-green-400 text-white px-3 py-1 rounded-full">
+                Your class
+              </small>
+            )}
+          </div>
         </div>
         <ol className=" list-decimal list-outside px-4 grid xl:grid-cols-3 lg:grid-cols-2  grid-cols-1 gap-2">
           {classroom?.students?.length ? (
-            classroom?.students &&
-            classroom?.students.map((student) => (
-              <li key={student}>
+            classroom?.students.map((student, index) => (
+              <li key={index}>
                 <p>Name: {student?.name}</p>
                 <small>Email: {student?.email}</small>
               </li>

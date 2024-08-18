@@ -18,9 +18,7 @@ const LoginPage = () => {
             fugit nam doloribus?
           </p>
         </div>
-        {/* social login */}
 
-        {/* or continue with email */}
         <LoginForm />
       </div>
     </section>

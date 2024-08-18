@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 export const UserContext = createContext(null);
@@ -7,29 +7,26 @@ const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const createUser = (email, password) => {
-    setLoading(true);
-  };
-  const updateUserProfile = (userName) => {};
-
-  const loginUser = (email, password) => {
-    setLoading(true);
-  };
-
-  const logInWithGoogle = () => {};
+  useEffect(() => {
+    const currentUser = localStorage.getItem("user");
+    if (currentUser) {
+      setUser(JSON.parse(currentUser));
+      setLoading(false);
+    }
+  }, []);
 
   const logOutUser = () => {
+    setUser(null);
+    localStorage.removeItem("user");
     setLoading(false);
   };
 
   const userInfo = {
-    createUser,
     user,
     logOutUser,
-    loginUser,
+    setUser,
+    setLoading,
     loading,
-    logInWithGoogle,
-    updateUserProfile,
   };
 
   return (

@@ -4,6 +4,7 @@ import Button from "./../../../Shared/Button/Button";
 import useAxios from "./../../../../hooks/useAxios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { generateAvailableTimes } from "./../../../../utils/generateAvailableTimes";
 const daysOfWeek = [
   "Sunday",
   "Monday",
@@ -30,10 +31,13 @@ const CreateClassroom = ({ setIsClassroomToggle, refetch }) => {
       return toast.error("Invalid End Time");
     }
     setIsLoading(true);
+
     data.startTime += " " + data.start;
     data.endTime += " " + data.end;
     delete data.end;
     delete data.start;
+
+    data.availableTimes = generateAvailableTimes(data.startTime, data.endTime);
 
     try {
       const res = await axiosInstance.post("/classroom", data);
@@ -41,7 +45,7 @@ const CreateClassroom = ({ setIsClassroomToggle, refetch }) => {
         toast.error(res.data.message);
       }
       if (res.data.insertedId) {
-        refetch()
+        refetch();
         toast.success("A new classroom is created successfully");
         setIsClassroomToggle(false);
       }

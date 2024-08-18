@@ -29,7 +29,7 @@ const Classroom = () => {
           ?.slice()
           .reverse()
           .map((classroom) => (
-            <ClassroomCard key={classroom._id} classroom={classroom} />
+            <ClassroomCard key={classroom._id} classroom={classroom} refetch={refetch} />
           ))}
       </div>
     </section>

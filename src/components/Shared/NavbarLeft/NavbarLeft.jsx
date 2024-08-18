@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import FaHome from "../../../assets/images/icons/home.svg";
-import FaPlus from "../../../assets/images/icons/new-list.svg";
+import { MdDashboard } from "react-icons/md";
+import { FaChalkboardTeacher } from "react-icons/fa";
 
 const menuItems = [
-  { id: 1, title: "Classroom", url: "/classroom", icon: FaHome, end: true },
-  { id: 2, title: "Dashboard", url: "/classroom/dashboard", icon: FaPlus },
+  { id: 1, title: "Classroom", url: "/classroom", icon: FaChalkboardTeacher, end: true },
+  { id: 2, title: "Dashboard", url: "/classroom/dashboard", icon: MdDashboard },
 ];
 
 const NavbarLeft = () => {
@@ -22,13 +22,13 @@ const NavbarLeft = () => {
               <li key={item.id}>
                 <NavLink
                   to={item.url}
-                  end={item.end} // Add the "end" prop conditionally
+                  end={item.end}
                   className={({ isActive }) =>
                     `flex gap-[14px] items-center px-[26px] py-[14px] transition duration-300 
                     border-l-2 ${isActive ? "border-black bg-third-color" : "border-white hover:border-black hover:bg-third-color"}`
                   }
                 >
-                  <img src={item.icon} alt={item.title} />
+                  <item.icon className="text-xl" />
                   <span className="text-[15px] text-[#5C635A]">
                     {item.title}
                   </span>

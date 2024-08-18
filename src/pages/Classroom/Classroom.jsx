@@ -2,7 +2,9 @@ import Added from "./../../components/unique/Added/Added";
 import useToGetData from "./../../hooks/useToGetData";
 import LoadingSpinner from "./../../components/Shared/LoadingSpinner/LoadingSpinner";
 import ClassroomCard from "./ClassroomCard/ClassroomCard";
+import useScrollToTop from "./../../hooks/useScrollToTop";
 const Classroom = () => {
+  useScrollToTop();
   const {
     data: classrooms,
     isLoading,
@@ -29,7 +31,11 @@ const Classroom = () => {
           ?.slice()
           .reverse()
           .map((classroom) => (
-            <ClassroomCard key={classroom._id} classroom={classroom} refetch={refetch} />
+            <ClassroomCard
+              key={classroom._id}
+              classroom={classroom}
+              refetch={refetch}
+            />
           ))}
       </div>
     </section>

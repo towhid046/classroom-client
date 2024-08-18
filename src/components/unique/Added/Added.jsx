@@ -4,16 +4,17 @@ import Button from "./../../Shared/Button/Button";
 import AddTeacher from "./AddTeacher/AddTeacher";
 import AddStudent from "./AddStudent/AddStudent";
 import useUserRole from "./../../../hooks/useUserRole";
+import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Added = ({ classroomLength, refetch }) => {
   const [isClassroomToggle, setIsClassroomToggle] = useState(false);
   const [isAddTeacher, setIsAddTeacher] = useState(false);
   const [isAddStudent, setIsAddStudent] = useState(false);
-  const { userRole } = useUserRole();
+  const { userRole, isLoading } = useUserRole();
 
   return (
     <>
-      <div className=" mb-5 flex flex-col gap-2 justify-between items-center lg:gap-5 lg:flex-row ">
+      {isLoading ? <LoadingSpinner/> : <div className=" mb-5 flex flex-col gap-2 justify-between items-center lg:gap-5 lg:flex-row ">
         {userRole === "principal" && (
           <Button
             clickHandler={() => setIsClassroomToggle(true)}
@@ -42,7 +43,7 @@ const Added = ({ classroomLength, refetch }) => {
             )}
           </>
         )}
-      </div>
+      </div>}
       {isClassroomToggle && (
         <CreateClassroom
           setIsClassroomToggle={setIsClassroomToggle}

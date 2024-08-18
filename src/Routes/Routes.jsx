@@ -4,6 +4,7 @@ import LoginPage from "./../pages/LoginPage/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import Classroom from "../pages/Classroom/Classroom";
 import ProtectedRoute from "./ProtectedRoute";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
 const routes = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const routes = createBrowserRouter([
             <Classroom />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "/classroom/dashboard",
+        element: <Dashboard />,
       },
     ],
   },
